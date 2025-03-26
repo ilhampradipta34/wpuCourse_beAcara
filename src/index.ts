@@ -16,7 +16,13 @@ async function init() {
 
         const PORT = 3000;
 
-  
+        
+        app.get("/", (req, res) => {
+            res.status(200).json({
+                message: "Welcome to Acara API",
+                data: null
+            });
+        })
 
         app.use("/api", router);
 
