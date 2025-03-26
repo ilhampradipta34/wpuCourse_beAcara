@@ -1,10 +1,13 @@
 import express from "express";
-import dummyController from "../controllers/dummyController"
+import authController from "../controllers/authController";
+import middleware from "../middleware/middleware";
 
 const router = express.Router();
 
 
-router.get('/dummy', dummyController.dummy)
+router.post('/auth/register', authController.register);
+router.post('/auth/login', authController.login);
+router.get('/auth/me', middleware, authController.me);
 
 
 export default router;
