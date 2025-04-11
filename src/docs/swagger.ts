@@ -32,6 +32,16 @@ const doc = {
             LoginRequest: {
                 identifier: "bgs",
                 password: "bgs1234"
+            },
+            RegisterRequest: {
+                fullName: "joni",
+                username: "jon1234",
+                email: "joni@gmail.com",
+                password: "Joni1234",
+                confirmpassword: "Joni1234"
+            },
+            ActivationRequest: {
+                code: "abcdef"
             }
         }
     }

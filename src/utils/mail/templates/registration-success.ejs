@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acara - Activation User</title>
+  </head>
+  <body
+    style="
+      background-color: #f9fafb;
+      font-family: sans-serif;
+      font-size: 14px;
+      margin: 0;
+      padding: 0;
+    "
+  >
+    <div
+      style="
+        max-width: 600px;
+        margin: auto;
+        padding: 0 16px;
+      "
+    >
+      <header
+        style="
+          background-color: #4caf50;
+          color: #ffffff;
+          text-align: center;
+          padding: 16px 8px;
+          font-size: 20px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <h1 style="margin: 0; font-weight: bold">Selamat Datang!</h1>
+      </header>
+
+      <div
+        style="
+          background-color: #f5f5f5;
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+          margin-top: 8px;
+          padding: 20px;
+        "
+      >
+        <p style="margin-bottom: 8px"><strong>Halo</strong> <%= username %>,</p>
+        <p>
+          Terimakasih telah mendaftar di layanan kami. Berikut adalah informasi
+          dari akun Anda:
+        </p>
+
+        <ul style="padding-left: 20px; margin: 12px 0">
+          <li><strong>Nama:</strong> <%= fullName %></li>
+          <li><strong>Email:</strong> <%= email %></li>
+          <li><strong>Tanggal pendaftaran:</strong> <%= createdAt %></li>
+        </ul>
+
+        <p style="margin-top: 16px">
+          Untuk memulai, silakan klik tombol di bawah ini:
+        </p>
+
+        <p style="margin: 16px 0">
+          <a
+            href="<%= activationLink %>"
+            style="
+              background-color: #3b82f6;
+              color: white;
+              padding: 10px 16px;
+              text-decoration: none;
+              font-weight: 600;
+              border-radius: 4px;
+              display: inline-block;
+            "
+            >Aktifkan akun</a
+          >
+        </p>
+
+        <p>
+          Jika Anda memiliki pertanyaan, jangan ragu untuk menghubungi kami.
+        </p>
+        <p>Salam hangat,<br />acara</p>
+      </div>
+
+      <footer
+        style="
+          background-color: #eee;
+          text-align: center;
+          padding: 16px 8px;
+          font-size: 14px;
+          color: #555;
+        "
+      >
+        <p style="margin: 0">
+          &copy; 2025 acara event management system. Semua hak dilindungi
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
