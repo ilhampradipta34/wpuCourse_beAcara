@@ -11,13 +11,13 @@ const doc = {
     },
     servers: [
         {
-            url: "http://localhost:3000/api",
-            decription: "server local development",
-            
+            url: "https://wpu-course-be-acara.vercel.app/api",
+            description: "deploy server prodcion"
         },
         {
-            url: "https://wpu-course-be-acara.vercel.app/api",
-            descrption: "deploy server prodcion"
+            url: "http://localhost:3000/api",
+            description: "server local development",
+            
         }
     ],
     components: {
