@@ -16,8 +16,7 @@ type TRegister = {
 type TLogin = {
   identifier: string;
   password: string;
-
-}
+};
 
 // const registerValidation = Yup.object({
 //   fullName: Yup.string().required(),
@@ -45,11 +44,9 @@ type TLogin = {
 
 //optimal
 const registerValidation = Yup.object({
-  fullName: Yup.string()
-    .required("Full name is required"),
+  fullName: Yup.string().required("Full name is required"),
 
-  userName: Yup.string()
-    .required("Username is required"),
+  userName: Yup.string().required("Username is required"),
 
   email: Yup.string()
     .email("Invalid email format") //  tambahkan validasi format email
@@ -66,10 +63,8 @@ const registerValidation = Yup.object({
     .oneOf([Yup.ref("password")], "Passwords must match"),
 });
 
-
 export default {
   async register(req: Request, res: Response) {
-
     /**
     #swagger.tags = ['Auth']
     */
@@ -78,36 +73,56 @@ export default {
       req.body as unknown as TRegister;
 
     try {
-        await registerValidation.validate({
-            fullName,
-            userName,
-            email,
-            password,
-            confirmPassword,
-        });
+      await registerValidation.validate({
+        fullName,
+        userName,
+        email,
+        password,
+        confirmPassword,
+      });
 
-        const result = await UserModel.create({
-          fullName,
-          userName,
-          email,
-          password,
-        })
+      // Cek apakah email atau username sudah digunakan
+      const existingUser = await UserModel.findOne({
+        $or: [{ email }, { userName }],
+      });
 
-        res.status(200).json({
-            message: "Berhasil mendaftar!",
-            data: result,
-        });
+      if (existingUser) {
+        if (existingUser.email === email) {
+          return res.status(400).json({
+            field: "email",
+            message: "Email telah digunakan",
+          });
+        }
+        if (existingUser.userName === userName) {
+          return res.status(400).json({
+            field: "userName",
+            message: "Username telah digunakan",
+          });
+        }
+      }
+
+      const result = await UserModel.create({
+        fullName,
+        userName,
+        email,
+        password,
+      });
+
+      res.status(200).json({
+        message: "Berhasil mendaftar!",
+        data: result,
+      });
     } catch (error) {
-        const err = error as unknown as Error;
+      const err = error as unknown as Error;
 
-        res.status(400).json({
-            message: err.message,
-            data: null,
-        });
+      res.status(400).json({
+        message: err.message,
+        data: null,
+      });
     }
   },
 
-  async login(req: Request, res: Response){
+  async login(req: Request, res: Response) {
     /**
      
      #swagger.tags = ['Auth']
@@ -117,63 +132,55 @@ export default {
       schema: {$ref: '#/components/schemas/LoginRequest'},
      }
      */
-    const {
-      identifier, password
-    } = req.body as unknown as TLogin;
+    const { identifier, password } = req.body as unknown as TLogin;
     try {
-      
       //ambil data user berdasarkan identifier => email dan username
 
       const userByIdentifier = await UserModel.findOne({
-        $or: [
-          { email: identifier },
-          { userName: identifier },
-        ],
+        $or: [{ email: identifier }, { userName: identifier }],
         isActive: true,
       });
-      
+
       if (!userByIdentifier) {
         return res.status(403).json({
           message: "user not found",
-          data: null
-        })
+          data: null,
+        });
       }
 
       //validasi password
-      const validatepassword: boolean = encrypt(password) === userByIdentifier.password;
+      const validatepassword: boolean =
+        encrypt(password) === userByIdentifier.password;
 
-      if (!validatepassword){
+      if (!validatepassword) {
         return res.status(403).json({
           message: "user not found",
-          data: null
-        })
+          data: null,
+        });
       }
 
       const token = generateToken({
         id: userByIdentifier.id,
         role: userByIdentifier.role,
-      })
+      });
 
       res.status(200).json({
         message: "Berhasil login!",
         data: {
           token: token,
         },
-      })
-
-
+      });
     } catch (error) {
       const err = error as unknown as Error;
 
       res.status(400).json({
-          message: err.message,
-          data: null,
+        message: err.message,
+        data: null,
       });
     }
   },
 
-  async me(req:IReqUser, res:Response){
-
+  async me(req: IReqUser, res: Response) {
     /**
      #swagger.tags = ['Auth']
      #swagger.security = [{
@@ -189,18 +196,18 @@ export default {
       res.status(200).json({
         messsage: "sukses mendapatkan profil user!",
         data: result,
-      })
+      });
     } catch (error) {
       const err = error as unknown as Error;
 
       res.status(400).json({
-          message: err.message,
-          data: null,
+        message: err.message,
+        data: null,
       });
     }
   },
 
-  async activation(req: Request, res:Response) {
+  async activation(req: Request, res: Response) {
     /**
      #swagger.tags = ['Auth']
      #swagger.requestBody = {
@@ -211,31 +218,31 @@ export default {
      }
      */
     try {
-
-      const {code} = req.body as {code: string}
+      const { code } = req.body as { code: string };
 
       const user = await UserModel.findOneAndUpdate(
-      {
-        activationCode: code,
-      },
-      {
-        isActive: true,
-      }, {
-        new: true,
-      });
-      
+        {
+          activationCode: code,
+        },
+        {
+          isActive: true,
+        },
+        {
+          new: true,
+        }
+      );
+
       res.status(200).json({
         message: "sukses mengaktifkan user!",
         data: user,
-      })
-
+      });
     } catch (error) {
       const err = error as unknown as Error;
 
       res.status(400).json({
-          message: err.message,
-          data: null,
+        message: err.message,
+        data: null,
       });
     }
-  }
+  },
 };
