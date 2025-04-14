@@ -8,11 +8,11 @@
   "servers": [
     {
       "url": "https://wpu-course-be-acara.vercel.app/api",
-      "decription": "deploy server prodcion"
+      "description": "deploy server prodcion"
     },
     {
       "url": "http://localhost:3000/api",
-      "decription": "server local development"
+      "description": "server local development"
     }
   ],
   "paths": {
