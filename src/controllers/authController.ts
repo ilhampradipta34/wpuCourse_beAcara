@@ -82,6 +82,25 @@ export default {
         confirmPassword,
       });
 
+      // Cek apakah email atau username sudah digunakan (paralel, lebih cepat)
+      const [emailExists, usernameExists] = await Promise.all([
+        UserModel.findOne({ email }),
+        UserModel.findOne({ userName }),
+      ]);
+
+      const errors = [];
+
+      if (emailExists) {
+        errors.push({ field: "email", message: "Email telah digunakan" });
+      }
+      if (usernameExists) {
+        errors.push({ field: "userName", message: "Username telah digunakan" });
+      }
+
+      if (errors.length > 0) {
+        return response.error(res, "Validasi gagal", errors);
+      }
+
       // // Cek apakah email atau username sudah digunakan
       // const existingUser = await UserModel.findOne({
       //   $or: [{ email }, { userName }],
@@ -116,13 +135,31 @@ export default {
       //   data: result,
       // });
       response.success(res, result, "Berhasil Mendaftar");
-    } catch (error) {
+    } catch (error: any) {
       // const err = error as unknown as Error;
 
       // res.status(400).json({
       //   message: err.message,
       //   data: null,
       // });
+      // Tangani duplicate key dari MongoDB (cadangan kalau race condition)
+      if (error.code === 11000) {
+        const errors = [];
+
+        if (error.keyPattern?.email) {
+          errors.push({ field: "email", message: "Email telah digunakan" });
+        }
+
+        if (error.keyPattern?.userName) {
+          errors.push({
+            field: "userName",
+            message: "Username telah digunakan",
+          });
+        }
+
+        return response.error(res, "Validasi gagal", errors);
+      }
+
       response.error(res, "Gagal Mendaftar", error);
     }
   },

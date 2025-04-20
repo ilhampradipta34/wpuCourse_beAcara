@@ -30,12 +30,14 @@ const userSchema = new Schema<User>(
       type: Schema.Types.String,
       required: true,
       unique: true,
+      index: true, // Explicit index
     },
 
     email: {
       type: Schema.Types.String,
       required: true,
       unique: true,
+      index: true, // Explicit index
     },
 
     password: {
