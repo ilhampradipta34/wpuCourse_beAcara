@@ -82,27 +82,27 @@ export default {
         confirmPassword,
       });
 
-      // Cek apakah email atau username sudah digunakan
-      const existingUser = await UserModel.findOne({
-        $or: [{ email }, { userName }],
-      });
+      // // Cek apakah email atau username sudah digunakan
+      // const existingUser = await UserModel.findOne({
+      //   $or: [{ email }, { userName }],
+      // });
 
-      if (existingUser) {
-        const errors = [];
+      // if (existingUser) {
+      //   const errors = [];
 
-        if (existingUser.email === email) {
-          errors.push({ field: "email", message: "Email telah digunakan" });
-        }
+      //   if (existingUser.email === email) {
+      //     errors.push({ field: "email", message: "Email telah digunakan" });
+      //   }
 
-        if (existingUser.userName === userName) {
-          errors.push({
-            field: "userName",
-            message: "Username telah digunakan",
-          });
-        }
+      //   if (existingUser.userName === userName) {
+      //     errors.push({
+      //       field: "userName",
+      //       message: "Username telah digunakan",
+      //     });
+      //   }
 
-        return response.error(res, "validation failed", errors);
-      }
+      //   return response.error(res, "validation failed", errors);
+      // }
 
       const result = await UserModel.create({
         fullName,
