@@ -83,23 +83,15 @@ export default {
       });
 
       // Cek apakah email atau username sudah digunakan (paralel, lebih cepat)
-      const [emailExists, usernameExists] = await Promise.all([
-        UserModel.findOne({ email }),
-        UserModel.findOne({ userName }),
-      ]);
-
-      const errors = [];
-
-      if (emailExists) {
-        errors.push({ field: "email", message: "Email telah digunakan" });
-      }
-      if (usernameExists) {
-        errors.push({ field: "userName", message: "Username telah digunakan" });
+      const existingUser = await UserModel.findOne({
+        $or: [{ email }, { userName }],
+      });
+    
+      if (existingUser) {
+        return response.error(res, "Gagal mendaftar: Email atau Username telah digunakan", null);
       }
 
-      if (errors.length > 0) {
-        return response.error(res, "Validasi gagal", errors);
-      }
+    
 
       // // Cek apakah email atau username sudah digunakan
       // const existingUser = await UserModel.findOne({
@@ -144,20 +136,8 @@ export default {
       // });
       // Tangani duplicate key dari MongoDB (cadangan kalau race condition)
       if (error.code === 11000) {
-        const errors = [];
-
-        if (error.keyPattern?.email) {
-          errors.push({ field: "email", message: "Email telah digunakan" });
-        }
-
-        if (error.keyPattern?.userName) {
-          errors.push({
-            field: "userName",
-            message: "Username telah digunakan",
-          });
-        }
-
-        return response.error(res, "Validasi gagal", errors);
+        // Cadangan kalau ada race condition
+        return response.error(res, "Gagal mendaftar: Email atau Username telah digunakan", error);
       }
 
       response.error(res, "Gagal Mendaftar", error);
