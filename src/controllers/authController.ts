@@ -82,37 +82,13 @@ export default {
         confirmPassword,
       });
 
-      // Cek apakah email atau username sudah digunakan (paralel, lebih cepat)
-      const existingUser = await UserModel.findOne({
-        $or: [{ email }, { userName }],
-      });
-    
-      if (existingUser) {
-        return response.error(res, "Gagal mendaftar: Email atau Username telah digunakan", null);
-      }
-
-    
-
-      // // Cek apakah email atau username sudah digunakan
+      // // Cek apakah email atau username sudah digunakan (paralel, lebih cepat)
       // const existingUser = await UserModel.findOne({
       //   $or: [{ email }, { userName }],
       // });
-
+    
       // if (existingUser) {
-      //   const errors = [];
-
-      //   if (existingUser.email === email) {
-      //     errors.push({ field: "email", message: "Email telah digunakan" });
-      //   }
-
-      //   if (existingUser.userName === userName) {
-      //     errors.push({
-      //       field: "userName",
-      //       message: "Username telah digunakan",
-      //     });
-      //   }
-
-      //   return response.error(res, "validation failed", errors);
+      //   return response.error(res, "Gagal mendaftar: Email atau Username telah digunakan", null);
       // }
 
       const result = await UserModel.create({
@@ -127,7 +103,7 @@ export default {
       //   data: result,
       // });
       response.success(res, result, "Berhasil Mendaftar");
-    } catch (error: any) {
+    } catch (error) {
       // const err = error as unknown as Error;
 
       // res.status(400).json({
@@ -135,10 +111,10 @@ export default {
       //   data: null,
       // });
       // Tangani duplicate key dari MongoDB (cadangan kalau race condition)
-      if (error.code === 11000) {
-        // Cadangan kalau ada race condition
-        return response.error(res, "Gagal mendaftar: Email atau Username telah digunakan", error);
-      }
+      // if (error.code === 11000) {
+      //   // Cadangan kalau ada race condition
+      //   return response.error(res, "Gagal mendaftar: Email atau Username telah digunakan", error);
+      // }
 
       response.error(res, "Gagal Mendaftar", error);
     }
