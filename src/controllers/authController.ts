@@ -110,10 +110,6 @@ export default {
       //   message: err.message,
       //   data: null,
       // });
-      // Tangani duplicate key dari MongoDB (cadangan kalau race condition)
-      // if (error.code === 11000) {
-      //   // Cadangan kalau ada race condition
-      //   return response.error(res, "Gagal mendaftar: Email atau Username telah digunakan", error);
       // }
       if (error.code === 11000) {
         const field = Object.keys(error.keyPattern)[0];
@@ -127,7 +123,7 @@ export default {
         ])
       }
 
-      // response.error(res, "Gagal Mendaftar", error);
+      response.error(res, "Gagal Mendaftar", error);
     }
   },
 
