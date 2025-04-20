@@ -6,7 +6,6 @@ import { generateToken } from "../utils/jwt";
 import { IReqUser } from "../utils/interface";
 import response from "../utils/response";
 
-
 type TRegister = {
   fullName: string;
   userName: string;
@@ -89,27 +88,20 @@ export default {
       });
 
       if (existingUser) {
-        if (existingUser.email === email) {
-          // return res.status(400).json({
-          //   field: "email",
-          //   message: "Email telah digunakan",
-          // });
+        const errors = [];
 
-          return response.error(res, 'validation failed', [
-            { field: "email", message: "Email telah digunakan" }
-          ]);
+        if (existingUser.email === email) {
+          errors.push({ field: "email", message: "Email telah digunakan" });
         }
 
         if (existingUser.userName === userName) {
-          // return res.status(400).json({
-          //   field: "userName",
-          //   message: "Username telah digunakan",
-          // });
-
-          return response.error(res, 'validation failed', [
-            { field: "userName", message: "Username telah digunakan" }
-          ]);
+          errors.push({
+            field: "userName",
+            message: "Username telah digunakan",
+          });
         }
+
+        return response.error(res, "validation failed", errors);
       }
 
       const result = await UserModel.create({
@@ -123,7 +115,7 @@ export default {
       //   message: "Berhasil mendaftar!",
       //   data: result,
       // });
-      response.success(res, result, 'Berhasil Mendaftar')
+      response.success(res, result, "Berhasil Mendaftar");
     } catch (error) {
       // const err = error as unknown as Error;
 
@@ -131,11 +123,11 @@ export default {
       //   message: err.message,
       //   data: null,
       // });
-      response.error(res, 'Gagal Mendaftar', error)
+      response.error(res, "Gagal Mendaftar", error);
     }
   },
 
-  async login(req: Request, res: Response ) {
+  async login(req: Request, res: Response) {
     /**
      
      #swagger.tags = ['Auth']
@@ -159,7 +151,7 @@ export default {
         //   message: "user not found",
         //   data: null,
         // });
-        return response.unauthorized(res, 'User Tidak Ditemukan')
+        return response.unauthorized(res, "User Tidak Ditemukan");
       }
 
       //validasi password
@@ -171,7 +163,7 @@ export default {
         //   message: "user not found",
         //   data: null,
         // });
-        return response.unauthorized(res, 'User Tidak Ditemukan')
+        return response.unauthorized(res, "User Tidak Ditemukan");
       }
 
       const token = generateToken({
@@ -185,7 +177,7 @@ export default {
       //     token: token,
       //   },
       // });
-      response.success(res, {token}, 'Berhasil login!')
+      response.success(res, { token }, "Berhasil login!");
     } catch (error) {
       // const err = error as unknown as Error;
 
@@ -193,7 +185,7 @@ export default {
       //   message: err.message,
       //   data: null,
       // });
-      response.error(res, 'login failed', error )
+      response.error(res, "login failed", error);
     }
   },
 
@@ -214,7 +206,7 @@ export default {
       //   messsage: "sukses mendapatkan profil user!",
       //   data: result,
       // });
-      response.success(res, result, 'sukses mendapatkan profil user!')
+      response.success(res, result, "sukses mendapatkan profil user!");
     } catch (error) {
       // const err = error as unknown as Error;
 
@@ -222,7 +214,7 @@ export default {
       //   message: err.message,
       //   data: null,
       // });
-      response.error(res, 'get profile failed', error )
+      response.error(res, "get profile failed", error);
     }
   },
 
@@ -255,7 +247,7 @@ export default {
       //   message: "sukses mengaktifkan user!",
       //   data: user,
       // });
-      response.success(res, user, 'sukses mengaktifkan user!')
+      response.success(res, user, "sukses mengaktifkan user!");
     } catch (error) {
       // const err = error as unknown as Error;
 
@@ -263,7 +255,7 @@ export default {
       //   message: err.message,
       //   data: null,
       // });
-      response.error(res, 'activation failed', error)
+      response.error(res, "activation failed", error);
     }
   },
 };
