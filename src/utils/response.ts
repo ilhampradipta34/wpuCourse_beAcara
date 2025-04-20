@@ -19,7 +19,7 @@ export default {
         })
     },
 
-    error (res: Response, message: string, error: unknown){
+    error (res: Response, message: string, error: unknown, customErrors?: any[]){
         if (error instanceof Yup.ValidationError) {
             return res.status(400).json({
                 meta: {
@@ -30,6 +30,12 @@ export default {
             })
            
         }
+        if (customErrors) {
+            return res.status(400).json({
+              meta: { status: 400, message },
+              data: customErrors, // object[]
+            });
+          }
     },
 
     unauthorized (res: Response, message: string = 'unauthorized'){

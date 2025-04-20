@@ -103,7 +103,7 @@ export default {
       //   data: result,
       // });
       response.success(res, result, "Berhasil Mendaftar");
-    } catch (error) {
+    } catch (error: any) {
       // const err = error as unknown as Error;
 
       // res.status(400).json({
@@ -115,8 +115,19 @@ export default {
       //   // Cadangan kalau ada race condition
       //   return response.error(res, "Gagal mendaftar: Email atau Username telah digunakan", error);
       // }
+      if (error.code === 11000) {
+        const field = Object.keys(error.keyPattern)[0];
+        const fieldName = field === "email" ? "Email" : "Username";
+        // return res.status(400).json({
+        //   message: `${fieldName} telah digunakan`,
+        //   data: null,
+        // });
+        return response.error(res, "Gagal Mendaftar", null, [
+          { field, message: `${fieldName} telah digunakan` }
+        ])
+      }
 
-      response.error(res, "Gagal Mendaftar", error);
+      // response.error(res, "Gagal Mendaftar", error);
     }
   },
 
