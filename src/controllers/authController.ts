@@ -3,7 +3,9 @@ import * as Yup from "yup";
 import UserModel from "../models/userModel";
 import { encrypt } from "../utils/encryption";
 import { generateToken } from "../utils/jwt";
-import { IReqUser } from "../middleware/middleware";
+import { IReqUser } from "../utils/interface";
+import response from "../utils/response";
+
 
 type TRegister = {
   fullName: string;
@@ -88,16 +90,25 @@ export default {
 
       if (existingUser) {
         if (existingUser.email === email) {
-          return res.status(400).json({
-            field: "email",
-            message: "Email telah digunakan",
-          });
+          // return res.status(400).json({
+          //   field: "email",
+          //   message: "Email telah digunakan",
+          // });
+
+          return response.error(res, 'validation failed', [
+            { field: "email", message: "Email telah digunakan" }
+          ]);
         }
+
         if (existingUser.userName === userName) {
-          return res.status(400).json({
-            field: "userName",
-            message: "Username telah digunakan",
-          });
+          // return res.status(400).json({
+          //   field: "userName",
+          //   message: "Username telah digunakan",
+          // });
+
+          return response.error(res, 'validation failed', [
+            { field: "userName", message: "Username telah digunakan" }
+          ]);
         }
       }
 
@@ -108,21 +119,23 @@ export default {
         password,
       });
 
-      res.status(200).json({
-        message: "Berhasil mendaftar!",
-        data: result,
-      });
+      // res.status(200).json({
+      //   message: "Berhasil mendaftar!",
+      //   data: result,
+      // });
+      response.success(res, result, 'Berhasil Mendaftar')
     } catch (error) {
-      const err = error as unknown as Error;
+      // const err = error as unknown as Error;
 
-      res.status(400).json({
-        message: err.message,
-        data: null,
-      });
+      // res.status(400).json({
+      //   message: err.message,
+      //   data: null,
+      // });
+      response.error(res, 'Gagal Mendaftar', error)
     }
   },
 
-  async login(req: Request, res: Response) {
+  async login(req: Request, res: Response ) {
     /**
      
      #swagger.tags = ['Auth']
@@ -142,10 +155,11 @@ export default {
       });
 
       if (!userByIdentifier) {
-        return res.status(403).json({
-          message: "user not found",
-          data: null,
-        });
+        // return res.status(403).json({
+        //   message: "user not found",
+        //   data: null,
+        // });
+        return response.unauthorized(res, 'User Tidak Ditemukan')
       }
 
       //validasi password
@@ -153,10 +167,11 @@ export default {
         encrypt(password) === userByIdentifier.password;
 
       if (!validatepassword) {
-        return res.status(403).json({
-          message: "user not found",
-          data: null,
-        });
+        // return res.status(403).json({
+        //   message: "user not found",
+        //   data: null,
+        // });
+        return response.unauthorized(res, 'User Tidak Ditemukan')
       }
 
       const token = generateToken({
@@ -164,19 +179,21 @@ export default {
         role: userByIdentifier.role,
       });
 
-      res.status(200).json({
-        message: "Berhasil login!",
-        data: {
-          token: token,
-        },
-      });
+      // res.status(200).json({
+      //   message: "Berhasil login!",
+      //   data: {
+      //     token: token,
+      //   },
+      // });
+      response.success(res, token, 'Berhasil login!')
     } catch (error) {
-      const err = error as unknown as Error;
+      // const err = error as unknown as Error;
 
-      res.status(400).json({
-        message: err.message,
-        data: null,
-      });
+      // res.status(400).json({
+      //   message: err.message,
+      //   data: null,
+      // });
+      response.error(res, 'login failed', error )
     }
   },
 
@@ -193,17 +210,19 @@ export default {
       const user = req.user;
       const result = await UserModel.findById(user?.id);
 
-      res.status(200).json({
-        messsage: "sukses mendapatkan profil user!",
-        data: result,
-      });
+      // res.status(200).json({
+      //   messsage: "sukses mendapatkan profil user!",
+      //   data: result,
+      // });
+      response.success(res, result, 'sukses mendapatkan profil user!')
     } catch (error) {
-      const err = error as unknown as Error;
+      // const err = error as unknown as Error;
 
-      res.status(400).json({
-        message: err.message,
-        data: null,
-      });
+      // res.status(400).json({
+      //   message: err.message,
+      //   data: null,
+      // });
+      response.error(res, 'get profile failed', error )
     }
   },
 
@@ -232,17 +251,19 @@ export default {
         }
       );
 
-      res.status(200).json({
-        message: "sukses mengaktifkan user!",
-        data: user,
-      });
+      // res.status(200).json({
+      //   message: "sukses mengaktifkan user!",
+      //   data: user,
+      // });
+      response.success(res, user, 'sukses mengaktifkan user!')
     } catch (error) {
-      const err = error as unknown as Error;
+      // const err = error as unknown as Error;
 
-      res.status(400).json({
-        message: err.message,
-        data: null,
-      });
+      // res.status(400).json({
+      //   message: err.message,
+      //   data: null,
+      // });
+      response.error(res, 'activation failed', error)
     }
   },
 };
