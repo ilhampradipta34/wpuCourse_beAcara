@@ -185,7 +185,7 @@ export default {
       //     token: token,
       //   },
       // });
-      response.success(res, token, 'Berhasil login!')
+      response.success(res, {token}, 'Berhasil login!')
     } catch (error) {
       // const err = error as unknown as Error;
 
