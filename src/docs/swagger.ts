@@ -4,48 +4,69 @@ const outputFile = "./swagger_output.json";
 const endpointsFiles = ["../routes/api.ts"];
 
 const doc = {
-    info: {
-        title: "Dokumentasi backend-API acara",
-        description: "API for managing events and booking tickets",
-        version: "v0.0.1",
+  info: {
+    title: "Dokumentasi backend-API acara",
+    description: "API for managing events and booking tickets",
+    version: "v0.0.1",
+  },
+  servers: [
+    {
+      url: "https://wpu-course-be-acara.vercel.app/api",
+      description: "deploy server prodcion",
     },
-    servers: [
-        {
-            url: "https://wpu-course-be-acara.vercel.app/api",
-            description: "deploy server prodcion"
+    {
+      url: "http://localhost:3000/api",
+      description: "server local development",
+    },
+  ],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        // bearerFormat: "JWT",
+      },
+    },
+    schemas: {
+      LoginRequest: {
+        identifier: "bgs",
+        password: "bgs1234",
+      },
+      RegisterRequest: {
+        fullName: "joni",
+        username: "jon1234",
+        email: "joni@gmail.com",
+        password: "Joni1234",
+        confirmpassword: "Joni1234",
+      },
+      ActivationRequest: {
+        code: "abcdef",
+      },
+      CreateCategoryRequest: {
+        name: "New Category",
+        description: "Category description",
+        icon: "",
+      },
+      CreateEventRequest: {
+        name: "Event Name 2",
+        startDate: "yyyy-mm-dd hh:mm:ss",
+        endDate: "yyyy-mm-dd hh:mm:ss",
+        description: "This is a sample description of the event 2.",
+        category: "Category ObjectId",
+        banner:
+          "fileUrl",
+        isFeatured: false,
+        isOnline: false,
+        location: {
+          region: "region id",
+          coordinates: [0, 0],
         },
-        {
-            url: "http://localhost:3000/api",
-            description: "server local development",
-            
-        }
-    ],
-    components: {
-        securitySchemes: {
-            bearerAuth: {
-                type: "http",
-                scheme: "bearer",
-                // bearerFormat: "JWT",
-            },
-        },
-        schemas: {
-            LoginRequest: {
-                identifier: "bgs",
-                password: "bgs1234"
-            },
-            RegisterRequest: {
-                fullName: "joni",
-                username: "jon1234",
-                email: "joni@gmail.com",
-                password: "Joni1234",
-                confirmpassword: "Joni1234"
-            },
-            ActivationRequest: {
-                code: "abcdef"
-            }
-        }
-    }
-}
+      },
+      RemoveMediaRequest: {
+        fileUrl: "",
+      },
+    },
+  },
+};
 
 swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc);
-
