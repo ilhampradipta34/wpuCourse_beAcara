@@ -85,13 +85,6 @@ router.delete('/category/:id', [middleware, aclMidlleware([ROLES.ADMIN])], categ
   "bearerAuth": {}
 }]
 
-#swagger.requestBody = {
-  required: true,
-  schema: {
-    $ref: '#/components/schemas/CreateCategoryRequest'
-  }
-
-}
 
 */
 
@@ -205,7 +198,7 @@ router.get('/regions', regionController.getAllProvinces
 
 )
 
-router.get('/regions/:id/province', regionController.getProvince
+router.get('/regions/:id/provincze', regionController.getProvince
 
 
   /*
@@ -324,7 +317,7 @@ router.post('/media/upload-multiple',  [
           files: {
             type: "array",
             items: {
-              tyoe: "string",
+              type: "string",
               format: "binary"
             }
           }

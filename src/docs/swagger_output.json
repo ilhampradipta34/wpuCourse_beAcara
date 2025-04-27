@@ -315,22 +315,7 @@
           {
             "bearerAuth": {}
           }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCategoryRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCategoryRequest"
-              }
-            }
-          }
-        }
+        ]
       }
     },
     "/events": {
@@ -564,7 +549,7 @@
         }
       }
     },
-    "/regions/{id}/province": {
+    "/regions/{id}/provincze": {
       "get": {
         "tags": [
           "Regions"
@@ -756,7 +741,7 @@
                   "files": {
                     "type": "array",
                     "items": {
-                      "tyoe": "string",
+                      "type": "string",
                       "format": "binary"
                     }
                   }
