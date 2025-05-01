@@ -96,6 +96,12 @@ const EventSchema = new Schema<Event>({
 }
 );
 
+// Tambahkan text index di sini
+EventSchema.index({
+    name: "text",
+    description: "text"
+  });
+
 EventSchema.pre("save", function () {
     if (!this.slug) {
         const slug = this.name.split(" ").join("-").toLowerCase();
