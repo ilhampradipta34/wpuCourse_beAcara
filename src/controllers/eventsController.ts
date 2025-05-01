@@ -33,8 +33,7 @@ export default {
             const query: FilterQuery<TEvent> = {};
 
             if (search) {
-                Object.assign({
-                    query,
+                Object.assign(query, {
                     $text: {
                         $search: search
                     }
