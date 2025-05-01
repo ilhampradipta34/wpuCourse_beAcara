@@ -34,7 +34,7 @@ export default {
 
             if (search) {
                 Object.assign({
-                    ...query,
+                    query,
                     $text: {
                         $search: search
                     }
