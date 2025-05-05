@@ -914,6 +914,10 @@
             "type": "boolean",
             "example": false
           },
+          "isPublish": {
+            "type": "boolean",
+            "example": false
+          },
           "location": {
             "type": "object",
             "properties": {
@@ -930,6 +934,10 @@
                 "items": {
                   "type": "number"
                 }
+              },
+              "address": {
+                "type": "string",
+                "example": ""
               }
             }
           }
