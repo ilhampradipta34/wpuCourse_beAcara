@@ -84,6 +84,10 @@ export default {
 
             const {id} = req.params;
 
+            if (!isValidObjectId(id)) {
+                    response.notFound(res, "failed to find id for update events");
+                  }
+
             //untuk slug ikut berubah jika name diupdate(not recomendeddd)
             // const payload = {...req.body}
 
@@ -107,6 +111,10 @@ export default {
 
             const {id} = req.params;
 
+            if (!isValidObjectId(id)) {
+                    response.notFound(res, "failed to find id for remove events");
+                  }
+
             const result = await EventModel.findByIdAndDelete(id, {
                 new: true
             });
@@ -121,6 +129,10 @@ export default {
         try {
 
             const {slug} = req.params;
+
+            if (!isValidObjectId(slug)) {
+                    response.notFound(res, "failed to find one slug ");
+                  }
 
             const result = await EventModel.findOne({
                 slug, 

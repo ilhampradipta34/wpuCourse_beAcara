@@ -86,6 +86,10 @@ export default {
         try {
             const { id } = req.params;
 
+            if (!isValidObjectId(id)) {
+                    response.notFound(res, "failed to find id for update category");
+                  }
+
             const result = await CategoryModel.findByIdAndUpdate(id, req.body, {
                 new: true,
             });
@@ -100,6 +104,10 @@ export default {
     async remove(req: IReqUser, res: Response) {
         try {
             const { id } = req.params;
+
+            if (!isValidObjectId(id)) {
+                    response.notFound(res, "failed to find id for remove category");
+                  }
 
             const result = await CategoryModel.findByIdAndDelete(id, {
                 new: true
