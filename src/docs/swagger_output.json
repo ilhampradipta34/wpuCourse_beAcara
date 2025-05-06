@@ -1345,6 +1345,54 @@
         "xml": {
           "name": "RemoveMediaRequest"
         }
+      },
+      "CreateBannerRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "banner 3 - title"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://res.cloudinary.com/dqjz54irk/image/upload/v1746335711/qrsv7x3vqirlcbwdnvkd.png"
+          },
+          "isShow": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "xml": {
+          "name": "CreateBannerRequest"
+        }
+      },
+      "CreateTicketRequest": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "number",
+            "example": 300000
+          },
+          "name": {
+            "type": "string",
+            "example": "Workshop Data Analyst"
+          },
+          "events": {
+            "type": "string",
+            "example": "681864de648297e57cdfbe22"
+          },
+          "description": {
+            "type": "string",
+            "example": "Sesi pelatihan interaktif selama 2 hari untuk memahami dasar analisis data menggunakan Excel dan SQL."
+          },
+          "quantity": {
+            "type": "number",
+            "example": 40
+          }
+        },
+        "xml": {
+          "name": "CreateTicketRequest"
+        }
       }
     }
   }
