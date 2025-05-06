@@ -2,7 +2,7 @@ import {Response} from "express"
 import { IPaginationQuery, IReqUser } from "../utils/interface"
 import response from "../utils/response"
 import EventModel, { eventDAO, TEvent } from "../models/eventsModel"
-import { FilterQuery } from "mongoose"
+import { FilterQuery, isValidObjectId } from "mongoose"
 
 
 
@@ -60,6 +60,11 @@ export default {
     async findOne (req: IReqUser, res:Response) {
         try {
             const {id} = req.params;
+
+               if (!isValidObjectId(id)) {
+                    response.notFound(res, "failed find one banner")
+                  }
+            
 
             const result = await EventModel.findById(id);
 

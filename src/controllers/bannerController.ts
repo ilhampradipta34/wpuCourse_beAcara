@@ -61,6 +61,11 @@ export default {
   async findOne(req: IReqUser, res: Response) {
     try {
       const { id } = req.params;
+
+      if (!isValidObjectId(id)) {
+        response.notFound(res, "failed find one banner")
+      }
+
       const result = await BannerModel.findById(id);
 
       if (!result) {

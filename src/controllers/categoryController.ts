@@ -2,6 +2,7 @@ import {Response} from "express"
 import { IPaginationQuery, IReqUser } from "../utils/interface"
 import CategoryModel, {categoryDAO} from "../models/categoryModel"
 import response from "../utils/response"
+import { isValidObjectId } from "mongoose"
 
 
 
@@ -63,6 +64,11 @@ export default {
 
         try {
             const { id } = req.params;
+
+               if (!isValidObjectId(id)) {
+                    response.notFound(res, "failed find one banner")
+                  }
+            
 
             const result = await CategoryModel.findById(id);
 

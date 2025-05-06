@@ -18,32 +18,42 @@ export default {
 
   async findAll(req: IReqUser, res: Response) {
     try {
+      const {
+        limit = 10,
+        page = 1,
+        search,
+      } = req.query as unknown as IPaginationQuery;
 
-        const {limit = 10, page = 1, search } = req.query as unknown as IPaginationQuery
-        
-        const query: FilterQuery<TypeTicket> = {};
+      const query: FilterQuery<TypeTicket> = {};
 
-        if (search) {
-            Object.assign(query,{
-                ...query,
-                $text : {
-                    $search : search
-                }
-            })
-        }
+      if (search) {
+        Object.assign(query, {
+          ...query,
+          $text: {
+            $search: search,
+          },
+        });
+      }
 
-        const result = await TicketModel.find(query).populate("events")
-        .limit(limit).skip((page -1) * limit).sort({createdAt: -1}).exec()
+      const result = await TicketModel.find(query)
+        .populate("events")
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .sort({ createdAt: -1 })
+        .exec();
 
-        const count = await TicketModel.countDocuments(query)
+      const count = await TicketModel.countDocuments(query);
 
-        response.pagination(res, result, {
-            total: count,
-            current: page,
-            totalPages: Math.ceil(count/limit)
-        }, "success find all tickets")
-
-      
+      response.pagination(
+        res,
+        result,
+        {
+          total: count,
+          current: page,
+          totalPages: Math.ceil(count / limit),
+        },
+        "success find all tickets"
+      );
     } catch (error) {
       response.error(res, "failed to find all a ticket", error);
     }
@@ -52,11 +62,15 @@ export default {
   async findOne(req: IReqUser, res: Response) {
     try {
       const { id } = req.params;
+      if (!isValidObjectId(id)) {
+        response.notFound(res, "failed find one banner");
+      }
+
       const result = await TicketModel.findById(id);
 
       if (!result) {
-              response.notFound(res, "failed find one ticket")
-            }
+        response.notFound(res, "failed find one ticket");
+      }
 
       response.success(res, result, "success find one ticket");
     } catch (error) {
