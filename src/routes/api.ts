@@ -13,60 +13,17 @@ import bannerController from "../controllers/bannerController";
 
 const router = express.Router();
 
+router.post("/auth/register", authController.register);
+router.post("/auth/login", authController.login);
+router.get("/auth/me", middleware, authController.me);
+router.post("/auth/activation", authController.activation);
 
-router.post('/auth/register', authController.register);
-router.post('/auth/login', authController.login);
-router.get('/auth/me', middleware, authController.me);
-router.post('/auth/activation', authController.activation);
+router.post(
+  "/tickets",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  ticketController.create
 
-router.post('/tickets', [middleware, aclMidlleware([ROLES.ADMIN])], ticketController.create
-
-
-/*
-
-#swagger.tags = ['Ticket']
-#swagger.security = [{
-  "bearerAuth": {}
-}]
-
-#swagger.requestBody = {
-  required: true,
-  schema: {
-    $ref: '#/components/schemas/CreateTicketRequest'
-  }
-
-}
-
-*/
-
-)
-router.get('/tickets', ticketController.findAll
-
-
-
-/*
-
-#swagger.tags = ['Ticket']
-
-
-*/
-  
-)
-router.get('/tickets/:id', ticketController.findOne
-
-
-/*
-
-#swagger.tags = ['Ticket']
-
-
-*/
-
-)
-router.put('/tickets/:id',  [middleware, aclMidlleware([ROLES.ADMIN])], ticketController.update
-
-
-/*
+  /*
 
 #swagger.tags = ['Ticket']
 #swagger.security = [{
@@ -82,27 +39,35 @@ router.put('/tickets/:id',  [middleware, aclMidlleware([ROLES.ADMIN])], ticketCo
 }
 
 */
+);
+router.get(
+  "/tickets",
+  ticketController.findAll
 
-)
-router.delete('/tickets/:id',  [middleware, aclMidlleware([ROLES.ADMIN])], ticketController.remove
-
-
-/*
+  /*
 
 #swagger.tags = ['Ticket']
-#swagger.security = [{
-  "bearerAuth": {}
-}]
-
 
 
 */
+);
+router.get(
+  "/tickets/:id",
+  ticketController.findOne
 
-)
-router.get('/tickets/:eventId/events', ticketController.findAllByEvent
+  /*
+
+#swagger.tags = ['Ticket']
 
 
-/*
+*/
+);
+router.put(
+  "/tickets/:id",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  ticketController.update
+
+  /*
 
 #swagger.tags = ['Ticket']
 #swagger.security = [{
@@ -118,13 +83,51 @@ router.get('/tickets/:eventId/events', ticketController.findAllByEvent
 }
 
 */
+);
+router.delete(
+  "/tickets/:id",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  ticketController.remove
+
+  /*
+
+#swagger.tags = ['Ticket']
+#swagger.security = [{
+  "bearerAuth": {}
+}]
 
 
-)
 
-router.post('/banners', [middleware, aclMidlleware([ROLES.ADMIN])], bannerController.create
+*/
+);
+router.get(
+  "/tickets/:eventId/events",
+  ticketController.findAllByEvent
 
-/*
+  /*
+
+#swagger.tags = ['Ticket']
+#swagger.security = [{
+  "bearerAuth": {}
+}]
+
+#swagger.requestBody = {
+  required: true,
+  schema: {
+    $ref: '#/components/schemas/CreateTicketRequest'
+  }
+
+}
+
+*/
+);
+
+router.post(
+  "/banners",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  bannerController.create
+
+  /*
 
 #swagger.tags = ['Banner']
 #swagger.security = [{
@@ -140,32 +143,35 @@ router.post('/banners', [middleware, aclMidlleware([ROLES.ADMIN])], bannerContro
 }
 
 */
+);
+router.get(
+  "/banners",
+  bannerController.findAll
 
-)
-router.get('/banners', bannerController.findAll
-
-/*
-
-#swagger.tags = ['Banner']
-
-
-*/
-
-)
-router.get('/banners/:id', bannerController.findOne
-
- /*
+  /*
 
 #swagger.tags = ['Banner']
 
 
 */
+);
+router.get(
+  "/banners/:id",
+  bannerController.findOne
+
+  /*
+
+#swagger.tags = ['Banner']
 
 
-)
-router.put('/banners/:id',  [middleware, aclMidlleware([ROLES.ADMIN])], bannerController.update
+*/
+);
+router.put(
+  "/banners/:id",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  bannerController.update
 
-/*
+  /*
 
 #swagger.tags = ['Banner']
 #swagger.security = [{
@@ -181,13 +187,13 @@ router.put('/banners/:id',  [middleware, aclMidlleware([ROLES.ADMIN])], bannerCo
 }
 
 */
+);
+router.delete(
+  "/banners/:id",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  bannerController.remove
 
-
-)
-router.delete('/banners/:id',  [middleware, aclMidlleware([ROLES.ADMIN])], bannerController.remove
-
-
-/*
+  /*
 
 #swagger.tags = ['Banner']
 #swagger.security = [{
@@ -196,13 +202,13 @@ router.delete('/banners/:id',  [middleware, aclMidlleware([ROLES.ADMIN])], banne
 
 
 */
+);
 
-
-)
-
-
-router.post('/category', [middleware, aclMidlleware([ROLES.ADMIN])], categoryController.create
-/*
+router.post(
+  "/category",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  categoryController.create
+  /*
 
 #swagger.tags = ['Category']
 #swagger.security = [{
@@ -219,7 +225,9 @@ router.post('/category', [middleware, aclMidlleware([ROLES.ADMIN])], categoryCon
 
 */
 );
-router.get('/category', categoryController.findAll
+router.get(
+  "/category",
+  categoryController.findAll
 
   /*
 
@@ -229,7 +237,9 @@ router.get('/category', categoryController.findAll
 
 */
 );
-router.get('/category/:id', categoryController.findOne
+router.get(
+  "/category/:id",
+  categoryController.findOne
 
   /*
 
@@ -237,11 +247,13 @@ router.get('/category/:id', categoryController.findOne
 
 
 */
-
 );
-router.put('/category/:id', [middleware, aclMidlleware([ROLES.ADMIN])], categoryController.update
+router.put(
+  "/category/:id",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  categoryController.update
 
-/*
+  /*
 
 #swagger.tags = ['Category']
 #swagger.security = [{
@@ -257,12 +269,14 @@ router.put('/category/:id', [middleware, aclMidlleware([ROLES.ADMIN])], category
 }
 
 */
-
 );
 
-router.delete('/category/:id', [middleware, aclMidlleware([ROLES.ADMIN])], categoryController.remove
+router.delete(
+  "/category/:id",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  categoryController.remove
 
-/*
+  /*
 
 #swagger.tags = ['Category']
 #swagger.security = [{
@@ -271,12 +285,14 @@ router.delete('/category/:id', [middleware, aclMidlleware([ROLES.ADMIN])], categ
 
 
 */
-
 );
 
-router.post('/events', [middleware, aclMidlleware([ROLES.ADMIN])], eventsController.create
+router.post(
+  "/events",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  eventsController.create
 
-/*
+  /*
 
 #swagger.tags = ['Events']
 #swagger.security = [{
@@ -292,10 +308,53 @@ router.post('/events', [middleware, aclMidlleware([ROLES.ADMIN])], eventsControl
 }
 
 */
+);
 
-)
+router.get(
+  "/events",
+  eventsController.findAll
 
-router.get('/events', eventsController.findAll
+  /*
+
+#swagger.tags = ['Events']
+#swagger.parameters['limit'] = {
+  in: 'query',
+  type: 'number',
+  default: 10
+}
+#swagger.parameters['page'] = {
+  in: 'query',
+  type: 'number',
+  default: 1
+}
+#swagger.parameters['category'] = {
+  in: 'query',
+  type: 'string',
+}
+#swagger.parameters['isOnline'] = {
+  in: 'query',
+  type: 'boolean'
+}
+#swagger.parameters['isFeatured'] = {
+  in: 'query',
+  type: 'boolean'
+}
+#swagger.parameters['isPublish'] = {
+  in: 'query',
+  type: 'boolean'
+}
+#swagger.parameters['limit'] = {
+  in: 'query',
+  type: 'number',
+  default: 10
+}
+
+*/
+);
+
+router.get(
+  "/events/:id",
+  eventsController.findOne
 
   /*
 
@@ -303,34 +362,25 @@ router.get('/events', eventsController.findAll
 
 
 */
+);
 
-)
+router.get(
+  "/events/:slug/slug",
+  eventsController.findOneBySlug
 
-
-router.get('/events/:id', eventsController.findOne
-
-/*
-
-#swagger.tags = ['Events']
-
-
-*/
-
-)
-
-router.get('/events/:slug/slug', eventsController.findOneBySlug
-
-/*
+  /*
 
 #swagger.tags = ['Events']
 
 */
+);
 
-)
+router.put(
+  "/events/:id",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  eventsController.update
 
-router.put('/events/:id', [middleware, aclMidlleware([ROLES.ADMIN])], eventsController.update
-
-/*
+  /*
 
 #swagger.tags = ['Events']
 #swagger.security = [{
@@ -346,12 +396,14 @@ router.put('/events/:id', [middleware, aclMidlleware([ROLES.ADMIN])], eventsCont
 }
 
 */
+);
 
-)
+router.delete(
+  "/events/:id",
+  [middleware, aclMidlleware([ROLES.ADMIN])],
+  eventsController.remove
 
-router.delete('/events/:id', [middleware, aclMidlleware([ROLES.ADMIN])], eventsController.remove
-
-/*
+  /*
 
 #swagger.tags = ['Events']
 #swagger.security = [{
@@ -361,23 +413,11 @@ router.delete('/events/:id', [middleware, aclMidlleware([ROLES.ADMIN])], eventsC
 
 
 */
+);
 
-)
-
-
-router.get('/regions', regionController.getAllProvinces
-
-  /*
-
-#swagger.tags = ['Regions']
-
-
-*/
-
-)
-
-router.get('/regions/:id/provincze', regionController.getProvince
-
+router.get(
+  "/regions",
+  regionController.getAllProvinces
 
   /*
 
@@ -385,23 +425,11 @@ router.get('/regions/:id/provincze', regionController.getProvince
 
 
 */
+);
 
-)
-
-router.get('/regions/:id/regency', regionController.getRegency
-
-
-  /*
-
-#swagger.tags = ['Regions']
-
-
-*/
-
-)
-
-router.get('/regions/:id/district', regionController.getDistrict
-
+router.get(
+  "/regions/:id/provincze",
+  regionController.getProvince
 
   /*
 
@@ -409,23 +437,11 @@ router.get('/regions/:id/district', regionController.getDistrict
 
 
 */
+);
 
-)
-
-router.get('/regions/:id/village', regionController.getVillage
-
-
-  /*
-
-#swagger.tags = ['Regions']
-
-
-*/
-
-)
-
-router.get('/regions-search', regionController.findByCity
-
+router.get(
+  "/regions/:id/regency",
+  regionController.getRegency
 
   /*
 
@@ -433,15 +449,54 @@ router.get('/regions-search', regionController.findByCity
 
 
 */
+);
 
-)
+router.get(
+  "/regions/:id/district",
+  regionController.getDistrict
+
+  /*
+
+#swagger.tags = ['Regions']
 
 
-router.post('/media/upload-single', [
-  middleware, aclMidlleware([ROLES.ADMIN, ROLES.MEMBER]), mediaMidlleware.single('file')
-], mediaController.single
+*/
+);
 
-/*
+router.get(
+  "/regions/:id/village",
+  regionController.getVillage
+
+  /*
+
+#swagger.tags = ['Regions']
+
+
+*/
+);
+
+router.get(
+  "/regions-search",
+  regionController.findByCity
+
+  /*
+
+#swagger.tags = ['Regions']
+
+
+*/
+);
+
+router.post(
+  "/media/upload-single",
+  [
+    middleware,
+    aclMidlleware([ROLES.ADMIN, ROLES.MEMBER]),
+    mediaMidlleware.single("file"),
+  ],
+  mediaController.single
+
+  /*
 
 #swagger.tags = ['Media']
 #swagger.security = [{
@@ -470,14 +525,18 @@ router.post('/media/upload-single', [
 }
 
 */
-
 );
 
-router.post('/media/upload-multiple',  [
-    middleware, aclMidlleware([ROLES.ADMIN, ROLES.MEMBER]), mediaMidlleware.multiple('files')
-  ], mediaController.multiple
+router.post(
+  "/media/upload-multiple",
+  [
+    middleware,
+    aclMidlleware([ROLES.ADMIN, ROLES.MEMBER]),
+    mediaMidlleware.multiple("files"),
+  ],
+  mediaController.multiple
 
-/*
+  /*
 
 #swagger.tags = ['Media']
 #swagger.security = [{
@@ -509,14 +568,14 @@ router.post('/media/upload-multiple',  [
 }
 
 */
-
 );
 
-router.delete('/media/remove',  [
-    middleware, aclMidlleware([ROLES.ADMIN, ROLES.MEMBER])
-  ], mediaController.remove
+router.delete(
+  "/media/remove",
+  [middleware, aclMidlleware([ROLES.ADMIN, ROLES.MEMBER])],
+  mediaController.remove
 
-/*
+  /*
 
 #swagger.tags = ['Media']
 #swagger.security = [{
@@ -533,11 +592,6 @@ router.delete('/media/remove',  [
 }
 
 */
-
-)
-
- 
-
-
+);
 
 export default router;
