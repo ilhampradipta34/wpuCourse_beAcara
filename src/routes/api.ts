@@ -490,9 +490,9 @@ router.get(
 router.post(
   "/media/upload-single",
   [
+    mediaMidlleware.single("file"),
     middleware,
     aclMidlleware([ROLES.ADMIN, ROLES.MEMBER]),
-    mediaMidlleware.single("file"),
   ],
   mediaController.single
 
