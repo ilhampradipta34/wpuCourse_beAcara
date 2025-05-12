@@ -147,13 +147,17 @@ export default {
     try {
       const { slug } = req.params;
 
-      if (!isValidObjectId(slug)) {
-        response.notFound(res, "failed to find one slug ");
-      }
+      // if (!isValidObjectId(slug)) {
+      //   response.notFound(res, "failed to find one slug ");
+      // }
 
       const result = await EventModel.findOne({
         slug,
       });
+
+        if (!result) {
+      return response.notFound(res, "failed to find one slug ");
+    }
 
       response.success(res, result, "success find one by slug an event");
     } catch (error) {
