@@ -71,8 +71,6 @@ const orderSchema = new Schema<Order>({
                 required: true
             }
         },
-        ref: EVENT_MODEL_NAME,
-        required: true
     },
     status: {
         type: Schema.Types.String,

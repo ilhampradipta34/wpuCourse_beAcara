@@ -35,7 +35,7 @@ export default {
       });
 
       const result = await orderModel.create(payload);
-      
+
       response.success(res, result, "success to create an order");
     } catch (error) {
       response.error(res, "failed to create an order", error);
@@ -202,6 +202,7 @@ export default {
   async pending(req: IReqUser, res: Response) {
     try {
       const { orderId } = req.params;
+      const userId = req.user?.id;
 
       const order = await orderModel.findOne({
         orderId,
@@ -222,7 +223,7 @@ export default {
       }
 
       const result = await orderModel.findOneAndUpdate(
-        { orderId },
+        { orderId, createdBy: userId },
         {
           status: orderStatus.PENDING,
         },
@@ -240,6 +241,7 @@ export default {
   async cancelled(req: IReqUser, res: Response) {
     try {
       const { orderId } = req.params;
+      const userId = req.user?.id;
 
       const order = await orderModel.findOne({
         orderId,
@@ -260,7 +262,7 @@ export default {
       }
 
       const result = await orderModel.findOneAndUpdate(
-        { orderId },
+        { orderId, createdBy: userId },
         {
           status: orderStatus.CANCELLED,
         },
