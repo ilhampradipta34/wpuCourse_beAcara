@@ -14,10 +14,94 @@ import orderController from "../controllers/orderController";
 
 const router = express.Router();
 
-router.post("/auth/register", authController.register);
-router.post("/auth/login", authController.login);
-router.get("/auth/me", middleware, authController.me);
-router.post("/auth/activation", authController.activation);
+router.post(
+  "/auth/register",
+  authController.register
+
+  /**
+  #swagger.tags = ['Auth']
+  #swagger.requestBody = {
+    required: true,
+    schema:  {
+      $ref: "#/components/schemas/RegisterRequest"
+    }
+  }
+  */
+);
+router.post("/auth/login", authController.login
+
+ /**
+  #swagger.tags = ['Auth']
+  #swagger.requestBody = {
+    required: true,
+    schema:  {
+      $ref: "#/components/schemas/LoginRequest"
+    }
+  }
+  */
+
+);
+router.get("/auth/me", middleware, authController.me
+
+ /**
+  #swagger.tags = ['Auth']
+  #swagger.security = [{
+    "bearerAuth": {}
+  }]
+  
+  */
+
+
+);
+router.post("/auth/activation", authController.activation
+
+ /**
+  #swagger.tags = ['Auth']
+  #swagger.requestBody = {
+    required: true,
+    schema:  {
+      $ref: "#/components/schemas/ActivationRequest"
+    }
+  }
+  */
+
+  
+);
+
+router.put("/auth/update-profile", [middleware, aclMidlleware([ROLES.MEMBER])], authController.updateProfile
+
+/**
+  #swagger.tags = ['Auth']
+   #swagger.security = [{
+    "bearerAuth": {}
+  }]
+  #swagger.requestBody = {
+    required: true,
+    schema:  {
+      $ref: "#/components/schemas/UpdateProfileRequest"
+    }
+  }
+  */
+
+),
+
+router.put("/auth/update-password", [middleware, aclMidlleware([ROLES.MEMBER])], authController.updatePassword
+
+/**
+  #swagger.tags = ['Auth']
+   #swagger.security = [{
+    "bearerAuth": {}
+  }]
+  #swagger.requestBody = {
+    required: true,
+    schema:  {
+      $ref: "#/components/schemas/UpdatePasswordRequest"
+    }
+  }
+  */
+
+),
+
 
 router.post(
   "/orders",
@@ -115,8 +199,6 @@ router.delete(
   }]
   */
 );
-
-
 
 router.post(
   "/tickets",

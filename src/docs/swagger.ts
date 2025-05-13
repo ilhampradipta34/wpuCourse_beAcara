@@ -42,6 +42,15 @@ const doc = {
       ActivationRequest: {
         code: "abcdef",
       },
+      UpdateProfileRequest: {
+        fullName: "joni",
+        profilePicture: ""
+      },
+      UpdatePasswordRequest: {
+          oldPassword: "",
+          password: "",
+          confirmPassword: ""
+      },
       CreateCategoryRequest: {
         name: "New Category",
         description: "Category description",

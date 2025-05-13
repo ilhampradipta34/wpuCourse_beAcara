@@ -3,21 +3,66 @@ import { encrypt } from "../utils/encryption";
 import { renderMailHtml, sendMail } from "../utils/mail/mail";
 import { CLIENT_HOST, EMAIL_SMTP_USER } from "../utils/env";
 import { ROLES } from "../utils/constant";
+import * as Yup from "yup";
+
+
+const validatePassword = Yup.string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[0-9]/, "Password must contain at least one number")
+;
+const validateConfirmPassword =  Yup.string()
+    .required("Confirm password is required")
+    .oneOf([Yup.ref("password")], "Passwords must match");
 
 export const USER_MODEL_NAME = "User";
 
-export interface User {
-  fullName: string;
-  userName: string;
-  email: string;
-  password: string;
-  role: string;
-  profilePicture: string;
+export const userLoginDTO = Yup.object({
+  identifier: Yup.string().required(),
+  password: validatePassword,
+})
+
+export const userUpdatePasswordDTO = Yup.object({
+  oldPassword: validatePassword,
+  password:  validatePassword,
+  confirmPassword: validateConfirmPassword
+})
+
+export const userDTO = Yup.object({
+   fullName: Yup.string().required(),
+  
+    userName: Yup.string().required(),
+  
+    email: Yup.string()
+      .email("Invalid email format") //  tambahkan validasi format email
+      .required(),
+    password: validatePassword,
+    confirmPassword: validateConfirmPassword,
+})
+
+export type TypeUser = Yup.InferType<typeof userDTO>
+
+export interface User extends Omit<TypeUser, "confirmPassword">{
   isActive: boolean;
   activationCode: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  role: string;
+  profilePicture: string;
+  createdAt?:string;
 }
+
+// export interface User {
+//   fullName: string;
+//   userName: string;
+//   email: string;
+//   password: string;
+//   role: string;
+//   profilePicture: string;
+//   isActive: boolean;
+//   activationCode: string;
+//   createdAt?: Date;
+//   updatedAt?: Date;
+// }
 
 const Schema = mongoose.Schema;
 
