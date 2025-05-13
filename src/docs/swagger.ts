@@ -71,15 +71,20 @@ const doc = {
         title : "banner 3 - title",
         image: "https://res.cloudinary.com/dqjz54irk/image/upload/v1746335711/qrsv7x3vqirlcbwdnvkd.png",
         isShow: false
-    },
+      },
       CreateTicketRequest: {
         price: 300000,
         name: "Workshop Data Analyst",
         events: "681864de648297e57cdfbe22",
         description: "Sesi pelatihan interaktif selama 2 hari untuk memahami dasar analisis data menggunakan Excel dan SQL.",
         quantity: 40
-      }
-      ,
+      },
+       CreateOrderRequest: {
+        events: "event object id",
+        ticket: "ticket object id",
+        quantity: 1,
+      },
+
     },
   },
 };

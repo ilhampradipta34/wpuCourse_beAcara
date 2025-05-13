@@ -1732,6 +1732,26 @@
         "xml": {
           "name": "CreateTicketRequest"
         }
+      },
+      "CreateOrderRequest": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "string",
+            "example": "event object id"
+          },
+          "ticket": {
+            "type": "string",
+            "example": "ticket object id"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "xml": {
+          "name": "CreateOrderRequest"
+        }
       }
     }
   }
