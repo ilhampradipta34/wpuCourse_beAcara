@@ -160,7 +160,7 @@
         },
         "security": [
           {
-            "bearerAuth": ""
+            "bearerAuth": {}
           }
         ],
         "requestBody": {
@@ -221,7 +221,7 @@
         },
         "security": [
           {
-            "bearerAuth": ""
+            "bearerAuth": {}
           }
         ]
       }
@@ -256,7 +256,7 @@
         },
         "security": [
           {
-            "bearerAuth": ""
+            "bearerAuth": {}
           }
         ]
       },
@@ -289,7 +289,7 @@
         },
         "security": [
           {
-            "bearerAuth": ""
+            "bearerAuth": {}
           }
         ]
       }
@@ -324,7 +324,7 @@
         },
         "security": [
           {
-            "bearerAuth": ""
+            "bearerAuth": {}
           }
         ]
       }
@@ -359,7 +359,7 @@
         },
         "security": [
           {
-            "bearerAuth": ""
+            "bearerAuth": {}
           }
         ]
       }
@@ -394,7 +394,7 @@
         },
         "security": [
           {
-            "bearerAuth": ""
+            "bearerAuth": {}
           }
         ]
       }
@@ -442,7 +442,7 @@
         },
         "security": [
           {
-            "bearerAuth": ""
+            "bearerAuth": {}
           }
         ]
       }

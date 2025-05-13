@@ -26,7 +26,7 @@ router.post(
   /*
   #swagger.tags = ['Order']
   #swagger.security = [{
-    "bearerAuth": ""
+    "bearerAuth": {}
   }]
   #swagger.requestBody = {
     required: true,
@@ -43,7 +43,7 @@ router.get(
   /*
   #swagger.tags = ['Order']
   #swagger.security = [{
-    "bearerAuth": ""
+    "bearerAuth": {}
   }]
   */
 );
@@ -54,7 +54,7 @@ router.get(
   /*
   #swagger.tags = ['Order']
   #swagger.security = [{
-    "bearerAuth": ""
+    "bearerAuth": {}
   }]
   */
 );
@@ -65,7 +65,7 @@ router.put(
   /*
   #swagger.tags = ['Order']
   #swagger.security = [{
-    "bearerAuth": ""
+    "bearerAuth": {}
   }]
   */
 );
@@ -76,7 +76,7 @@ router.put(
   /*
   #swagger.tags = ['Order']
   #swagger.security = [{
-    "bearerAuth": ""
+    "bearerAuth": {}
   }]
   */
 );
@@ -87,7 +87,7 @@ router.put(
   /*
   #swagger.tags = ['Order']
   #swagger.security = [{
-    "bearerAuth": ""
+    "bearerAuth": {}
   }]
   */
 );
@@ -99,7 +99,7 @@ router.get(
   /*
   #swagger.tags = ['Order']
   #swagger.security = [{
-    "bearerAuth": ""
+    "bearerAuth": {}
   }]
   */
 );
@@ -111,7 +111,7 @@ router.delete(
   /*
   #swagger.tags = ['Order']
   #swagger.security = [{
-    "bearerAuth": ""
+    "bearerAuth": {}
   }]
   */
 );
