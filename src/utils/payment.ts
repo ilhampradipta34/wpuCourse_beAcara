@@ -1,6 +1,5 @@
 import axios from "axios";
 import {
-    MIDTRANS_CLIENT_KEY,
     MIDTRANS_SERVER_KEY,
     MIDTRANS_TRANSACTION_URL
 } from "./env"

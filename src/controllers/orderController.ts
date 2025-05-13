@@ -158,6 +158,7 @@ export default {
       response.error(res, "failed to complete an order", error);
     }
   },
+  
   async cancelled(req: IReqUser, res: Response) {
     try {
     } catch (error) {
