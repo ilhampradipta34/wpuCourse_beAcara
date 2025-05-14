@@ -2,7 +2,7 @@ import { Response } from "express";
 import { IPaginationQuery, IReqUser } from "../utils/interface";
 import response from "../utils/response";
 import TicketModel, { ticketDao, TypeTicket } from "../models/ticketModel";
-import { FilterQuery, isValidObjectId } from "mongoose";
+import { FilterQuery, } from "mongoose";
 
 export default {
   async create(req: IReqUser, res: Response) {
@@ -62,9 +62,9 @@ export default {
   async findOne(req: IReqUser, res: Response) {
     try {
       const { id } = req.params;
-      if (!isValidObjectId(id)) {
-        response.notFound(res, "failed find one banner");
-      }
+      // if (!isValidObjectId(id)) {
+      //   response.notFound(res, "failed find one banner");
+      // }
 
       const result = await TicketModel.findById(id);
 
@@ -82,9 +82,9 @@ export default {
     try {
       const { id } = req.params;
 
-      if (!isValidObjectId(id)) {
-        response.notFound(res, "failed to find id for update ticket");
-      }
+      // if (!isValidObjectId(id)) {
+      //   response.notFound(res, "failed to find id for update ticket");
+      // }
 
       const result = await TicketModel.findByIdAndUpdate(id, req.body, {
         new: true,
@@ -101,9 +101,9 @@ export default {
       const { id } = req.params;
 
 
-      if (!isValidObjectId(id)) {
-        response.notFound(res, "failed to find id for remove ticket");
-      }
+      // if ((id)) {
+      //   response.notFound(res, "failed to find id for remove ticket");
+      // }
 
       const result = await TicketModel.findByIdAndDelete(id, {
         new: true,
@@ -119,9 +119,9 @@ export default {
     try {
       const { eventId } = req.params;
 
-      if (!isValidObjectId(eventId)) {
-        return response.error(res, "tickets not found", null);
-      }
+      // if (!isValidObjectId(eventId)) {
+      //   return response.error(res, "tickets not found", null);
+      // }
 
       const result = await TicketModel.find({ events: eventId }).exec();
 

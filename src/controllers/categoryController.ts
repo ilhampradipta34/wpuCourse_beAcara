@@ -65,9 +65,9 @@ export default {
         try {
             const { id } = req.params;
 
-               if (!isValidObjectId(id)) {
-                    response.notFound(res, "failed find one banner")
-                  }
+            //    if (!isValidObjectId(id)) {
+            //         response.notFound(res, "failed find one banner")
+            //       }
             
 
             const result = await CategoryModel.findById(id);
@@ -86,9 +86,9 @@ export default {
         try {
             const { id } = req.params;
 
-            if (!isValidObjectId(id)) {
-                    response.notFound(res, "failed to find id for update category");
-                  }
+            // if (!isValidObjectId(id)) {
+            //         response.notFound(res, "failed to find id for update category");
+            //       }
 
             const result = await CategoryModel.findByIdAndUpdate(id, req.body, {
                 new: true,
@@ -105,9 +105,9 @@ export default {
         try {
             const { id } = req.params;
 
-            if (!isValidObjectId(id)) {
-                    response.notFound(res, "failed to find id for remove category");
-                  }
+            // if (!isValidObjectId(id)) {
+            //         response.notFound(res, "failed to find id for remove category");
+            //       }
 
             const result = await CategoryModel.findByIdAndDelete(id, {
                 new: true

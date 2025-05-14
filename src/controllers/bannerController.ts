@@ -62,9 +62,9 @@ export default {
     try {
       const { id } = req.params;
 
-      if (!isValidObjectId(id)) {
-        response.notFound(res, "failed find one banner")
-      }
+      // if (!isValidObjectId(id)) {
+      //   response.notFound(res, "failed find one banner")
+      // }
 
       const result = await BannerModel.findById(id);
 
@@ -83,9 +83,9 @@ export default {
     try {
       const { id } = req.params;
 
-      if (!isValidObjectId(id)) {
-              response.notFound(res, "failed to find id for update banner");
-            }
+      // if (!isValidObjectId(id)) {
+      //         response.notFound(res, "failed to find id for update banner");
+      //       }
 
       const result = await BannerModel.findByIdAndUpdate(id, req.body, {
         new: true,
@@ -101,9 +101,9 @@ export default {
     try {
       const { id } = req.params;
 
-      if (!isValidObjectId(id)) {
-              response.notFound(res, "failed to find id for remove banner");
-            }
+      // if (!isValidObjectId(id)) {
+      //         response.notFound(res, "failed to find id for remove banner");
+      //       }
 
       const result = await BannerModel.findByIdAndDelete(id, {
         new: true,

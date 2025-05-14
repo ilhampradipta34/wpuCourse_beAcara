@@ -3,6 +3,7 @@ import { IPaginationQuery, IReqUser } from "../utils/interface";
 import response from "../utils/response";
 import EventModel, { eventDAO, TEvent } from "../models/eventsModel";
 import { FilterQuery, isValidObjectId } from "mongoose";
+import uploader from "../utils/uploader";
 
 export default {
   async create(req: IReqUser, res: Response) {
@@ -85,9 +86,9 @@ export default {
     try {
       const { id } = req.params;
 
-      if (!isValidObjectId(id)) {
-        response.notFound(res, "failed find one banner");
-      }
+      // if (!isValidObjectId(id)) {
+      //   response.notFound(res, "failed find one banner");
+      // }
 
       const result = await EventModel.findById(id);
 
@@ -105,10 +106,6 @@ export default {
     try {
       const { id } = req.params;
 
-      if (!isValidObjectId(id)) {
-        response.notFound(res, "failed to find id for update events");
-      }
-
       //untuk slug ikut berubah jika name diupdate(not recomendeddd)
       // const payload = {...req.body}
 
@@ -121,7 +118,10 @@ export default {
         new: true,
       });
 
+      if(!result) return response.notFound(res, "event not found")
+
       response.success(res, result, "success update event");
+
     } catch (error) {
       response.error(res, "failed to update an event", error);
     }
@@ -130,13 +130,13 @@ export default {
     try {
       const { id } = req.params;
 
-      if (!isValidObjectId(id)) {
-        response.notFound(res, "failed to find id for remove events");
-      }
-
       const result = await EventModel.findByIdAndDelete(id, {
         new: true,
       });
+
+      if (!result) return response.notFound(res, "event not found")
+        
+      await uploader.remove(result.banner)
 
       response.success(res, result, "success delete an event");
     } catch (error) {
